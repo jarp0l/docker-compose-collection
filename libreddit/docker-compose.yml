@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+  libreddit:
+    container_name: libreddit
+    image: "libreddit/libreddit"
+    restart: unless-stopped
+    networks:
+      - libreddit_net
+
+  caddy:
+    image: "abiosoft/caddy"
+    restart: unless-stopped
+    volumes:
+      - ./certs:/root/certs # to sync mkcert certificates to Caddy
+      - ./Caddyfile:/etc/Caddyfile  # to mount custom Caddyfile
+    ports:
+      - "443:2015"
+    depends_on:
+      - libreddit
+    networks:
+      - libreddit_net
+
+networks:
+  libreddit_net:

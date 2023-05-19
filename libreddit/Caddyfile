@@ -1,0 +1,10 @@
+l.ib {
+    log stdout
+    # Mkcert - https://github.com/FiloSottile/mkcert
+    tls /root/certs/l.ib.pem /root/certs/l.ib-key.pem
+
+    proxy / http://libreddit:8080 {
+        transparent
+        header_upstream Host  "l.ib"
+    }
+}
